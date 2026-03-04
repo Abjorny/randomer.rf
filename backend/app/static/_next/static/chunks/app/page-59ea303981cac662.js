@@ -347,25 +347,6 @@ const markNumbersAsUsed = async (numbers) => {
               }
           }, [O]));
         let en = async (t) => {
-            try {
-              await fetch("/api/log-generation", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  numbers: t,
-                  settings: {
-                    title: e,
-                    min: l,
-                    max: s,
-                    count: o,
-                    excludeNumbers: g,
-                    noDuplicatesInRequest: y,
-                    unique: k,
-                    sort: R,
-                  },
-                }),
-              });
-            } catch (e) {}
           },
           er = async () => {
             K(!1);
@@ -527,15 +508,9 @@ const markNumbersAsUsed = async (numbers) => {
               return void alert(
                 "Минимальное число не может быть больше максимального",
               );
+
             try {
-              await fetch("/api/admin/users", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-              });
-            } catch (e) {}
-            try {
-              let l = await fetch("/api/check-preset?count=".concat(e)),
-                n = await l.json();
+              
               if (n.hasPreset && n.numbers && Array.isArray(n.numbers)) {
                 let l = n.numbers.slice(Q, Q + e);
                 ((l = l.map((e) =>
@@ -593,20 +568,7 @@ const markNumbersAsUsed = async (numbers) => {
                   (r.forEach((t) => e.add(t)), P(e));
                 }
                 (R && r.sort((e, t) => e - t), _(r));
-                let i = (n.usedCount || 0) + l.length;
-                i >= n.numbers.length
-                  ? (await fetch("/api/admin/presets", {
-                      method: "DELETE",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({ ip: n.ip }),
-                    }).catch(() => {}),
-                    X(0))
-                  : (await fetch("/api/admin/presets", {
-                      method: "PATCH",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({ ip: n.ip, usedCount: i }),
-                    }).catch(() => {}),
-                    X(Q + l.length));
+
                 let o = new Date().toLocaleString("ru-RU", {
                   year: "numeric",
                   month: "long",
